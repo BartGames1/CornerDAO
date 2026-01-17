@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Уголок DAO — Web3 Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #050508;
+            --bg-secondary: #0f0f14;
+            --bg-card: #12121a;
+            --border: #1e1e2a;
+            --border-hover: #2a2a3a;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9090a0;
+            --text-muted: #606070;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-dim: rgba(99, 102, 241, 0.1);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --glow: rgba(99, 102, 241, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            top: -200px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            animation-delay: -14s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(-30px, -20px) scale(1.02); }
+        }
+
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(5, 5, 8, 0.7);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+        }
+
+        .logo:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .header-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .header-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .lang-switcher:hover {
+            color: var(--text-primary);
+            border-color: var(--border-hover);
+            background: var(--bg-secondary);
+        }
+
+        .lang-flag {
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .lang-text {
+            font-weight: 600;
+        }
+
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px 8px 10px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-light) 0%, #c084fc 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .stat {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, transparent 0%, var(--border) 50%, transparent 100%);
+        }
+
+        .stat:last-child::after {
+            display: none;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 6px;
+        }
+
+        .services-section {
+            padding: 40px 0 100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+        }
+
+        .section-line:first-child {
+            background: linear-gradient(90deg, transparent 0%, var(--border) 100%);
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-stats {
+                gap: 30px;
+            }
+            .stat::after {
+                right: -15px;
+            }
+            .header-links {
+                gap: 4px;
+            }
+            .header-link span {
+                display: none;
+            }
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(18, 18, 26, 0.8) 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 60px rgba(99, 102, 241, 0.1);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card.featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.08) 100%);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .service-card.featured {
+                grid-column: span 1;
+            }
+        }
+
+        .service-card.featured:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .service-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        .service-card.featured .service-icon {
+            background: linear-gradient(135deg, var(--accent-dim) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .service-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .service-icon svg {
+            color: var(--accent-light);
+        }
+
+        .service-card.featured .service-icon svg {
+            color: var(--accent-light);
+        }
+
+        .service-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 100px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .service-status.live {
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .service-status.soon {
+            color: var(--warning);
+            border-color: rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .service-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .service-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .service-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .service-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .service-tag {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 5px 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .service-card:hover .service-tag {
+            border-color: var(--border-hover);
+            color: var(--text-secondary);
+        }
+
+        .service-arrow {
+            margin-left: auto;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-arrow {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .service-arrow svg {
+            width: 16px;
+            height: 16px;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-arrow svg {
+            color: white;
+            transform: translateX(2px);
+        }
+
+        .cta-section {
+            padding: 80px 0;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+        }
+
+        .cta-glow {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--glow) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .cta-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 28px;
+            }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-content p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 14px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .cta-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 36px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 640px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+
+        .footer-link {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--text-secondary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+        }
+
+        .modal-header {
+            padding: 28px 28px 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .modal-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--accent-dim) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .modal-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--accent-light);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-primary);
+            border-color: var(--border-hover);
+        }
+
+        .modal-close svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-muted);
+        }
+
+        .modal-body {
+            padding: 24px 28px 28px;
+        }
+
+        .modal-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .modal-status.live {
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .modal-status.soon {
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .modal-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .modal-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .modal-features {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .modal-features-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .modal-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-feature:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .modal-feature:first-of-type {
+            padding-top: 0;
+        }
+
+        .modal-feature-icon {
+            width: 20px;
+            height: 20px;
+            color: var(--accent-light);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .modal-feature-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .modal-tag {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .modal-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .modal-btn-primary:disabled {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .modal-btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .modal-btn-secondary:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-primary);
+        }
+
+        @media (max-width: 640px) {
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Ecosystem Section */
+        .ecosystem-section {
+            padding: 80px 0 100px;
+            position: relative;
+        }
+
+        .ecosystem-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .ecosystem-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        .ecosystem-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .orbit-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 1;
+            margin: 0 auto;
+            overflow: visible;
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .orbit-1 {
+            width: 85%;
+            height: 85%;
+            animation: rotate 60s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 60%;
+            height: 60%;
+            animation: rotate 45s linear infinite reverse;
+        }
+
+        .orbit-3 {
+            width: 35%;
+            height: 35%;
+            border-color: rgba(99, 102, 241, 0.25);
+            animation: pulse-orbit 4s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes pulse-orbit {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                border-color: rgba(99, 102, 241, 0.25);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.05);
+                border-color: rgba(99, 102, 241, 0.4);
+            }
+        }
+
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 60px rgba(99, 102, 241, 0.5), 0 0 100px rgba(99, 102, 241, 0.3);
+            z-index: 10;
+            animation: center-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes center-pulse {
+            0%, 100% { 
+                box-shadow: 0 0 60px rgba(99, 102, 241, 0.5), 0 0 100px rgba(99, 102, 241, 0.3);
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 80px rgba(99, 102, 241, 0.7), 0 0 120px rgba(99, 102, 241, 0.4);
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        .center-logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+        }
+
+        .orbit-item {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            animation: float-item 6s ease-in-out infinite;
+        }
+
+        .orbit-item:nth-child(odd) {
+            animation-delay: -1.5s;
+        }
+
+        .orbit-item:nth-child(3n) {
+            animation-delay: -3s;
+        }
+
+        @keyframes float-item {
+            0%, 100% { 
+                transform: translate(-50%, -50%) translateY(0);
+            }
+            50% { 
+                transform: translate(-50%, -50%) translateY(-8px);
+            }
+        }
+
+        .orbit-item-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+            isolation: isolate;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3), 0 0 60px rgba(99, 102, 241, 0.15);
+        }
+
+        .orbit-item-icon::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 19px;
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .orbit-item-icon:hover::before {
+            opacity: 1;
+        }
+
+        .orbit-item-icon:hover {
+            border-color: transparent;
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.7), 0 0 100px rgba(99, 102, 241, 0.4);
+            transform: scale(1.15);
+        }
+
+        .orbit-item-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent-light);
+            transition: transform 0.3s ease;
+        }
+
+        .orbit-item-icon:hover svg {
+            transform: scale(1.1);
+        }
+
+        .orbit-item-icon.locked {
+            opacity: 0.5;
+        }
+
+        .orbit-item-icon.locked svg {
+            color: var(--text-muted);
+        }
+
+        .orbit-item-icon.locked:hover {
+            transform: scale(1.05);
+            box-shadow: none;
+        }
+
+        .orbit-item-icon.locked::before {
+            display: none;
+        }
+
+        .orbit-item-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .orbit-item:hover .orbit-item-label {
+            color: var(--text-primary);
+        }
+
+        .orbit-item-label.soon {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Orbit item positions */
+        .orbit-item.pos-top { top: 7.5%; left: 50%; }
+        .orbit-item.pos-right { top: 50%; left: 92.5%; }
+        .orbit-item.pos-bottom { top: 92.5%; left: 50%; }
+        .orbit-item.pos-left { top: 50%; left: 7.5%; }
+        
+        .orbit-item.pos-top-right { top: 20%; left: 80%; }
+        .orbit-item.pos-bottom-right { top: 80%; left: 80%; }
+        .orbit-item.pos-bottom-left { top: 80%; left: 20%; }
+        .orbit-item.pos-top-left { top: 20%; left: 20%; }
+
+        /* Particles */
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent-light);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: particle-float 10s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 25%; top: 35%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 65%; top: 25%; animation-delay: -1.5s; }
+        .particle:nth-child(3) { left: 75%; top: 55%; animation-delay: -3s; }
+        .particle:nth-child(4) { left: 35%; top: 65%; animation-delay: -4.5s; }
+        .particle:nth-child(5) { left: 55%; top: 45%; animation-delay: -6s; }
+        .particle:nth-child(6) { left: 20%; top: 50%; animation-delay: -7.5s; }
+        .particle:nth-child(7) { left: 80%; top: 40%; animation-delay: -2s; }
+        .particle:nth-child(8) { left: 45%; top: 75%; animation-delay: -5s; }
+
+        @keyframes particle-float {
+            0%, 100% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            15% {
+                opacity: 0.7;
+                transform: translateY(-15px) scale(1);
+            }
+            85% {
+                opacity: 0.7;
+                transform: translateY(-50px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0.5);
+            }
+        }
+
+        /* Stars background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .star:nth-child(odd) {
+            animation-delay: -1.5s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        @media (max-width: 640px) {
+            .orbit-container {
+                max-width: 350px;
+            }
+            .orbit-item-icon {
+                width: 44px;
+                height: 44px;
+            }
+            .orbit-item-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+            .orbit-item-label {
+                font-size: 0.7rem;
+            }
+            .center-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .center-logo img {
+                width: 36px;
+                height: 36px;
+            }
+            .particle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+    </div>
+    <div class="grid-pattern"></div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="avatar.png" alt="Уголок DAO" class="logo">
+                    <span class="logo-text" data-i18n="brand.full">Уголок DAO</span>
+                </div>
+                <div class="header-links">
+                    <a href="#services" class="header-link" data-i18n="nav.services">Сервисы</a>
+                    <a href="https://t.me/cornerdao" class="header-link" target="_blank">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                        <span>Telegram</span>
+                    </a>
+                    <button class="lang-switcher" onclick="toggleLanguage()" id="langBtn">
+                        <span class="lang-flag">🇬🇧</span>
+                        <span class="lang-text">EN</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    Web3 Community Hub
+                </div>
+                <h1><span class="logo-name" data-i18n="brand.name">Уголок</span> <span class="gradient-text">DAO</span></h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Образовательная платформа и сообщество для изучения различных задач при взаимодействии с миром Web3</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">Web3</div>
+                        <div class="stat-label" data-i18n="hero.education">Образование</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">DeFi</div>
+                        <div class="stat-label" data-i18n="hero.analytics">Аналитика</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">Open</div>
+                        <div class="stat-label" data-i18n="hero.community">Сообщество</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ecosystem-section">
+            <div class="container">
+                <div class="ecosystem-header">
+                    <h2 class="ecosystem-title" data-i18n="ecosystem.title">Единая экосистема для Web3</h2>
+                    <p class="ecosystem-subtitle" data-i18n="ecosystem.subtitle">Ознакомьтесь с нашими продуктами и функциями, которые помогут вам в решении различных задач</p>
+                </div>
+                
+                <div class="orbit-container">
+                    <div class="stars"></div>
+                    
+                    <!-- Particles -->
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    
+                    <!-- Orbits -->
+                    <div class="orbit orbit-1"></div>
+                    <div class="orbit orbit-2"></div>
+                    <div class="orbit orbit-3"></div>
+                    
+                    <!-- Center Logo -->
+                    <div class="center-logo">
+                        <img src="avatar.png" alt="Corner DAO">
+                    </div>
+                    
+                    <!-- Orbit Items -->
+                    <div class="orbit-item pos-top" onclick="openModal('modal-roadmap')">
+                        <div class="orbit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label">Web3 Roadmap</span>
+                    </div>
+                    
+                    <div class="orbit-item pos-right" onclick="openModal('modal-trading')">
+                        <div class="orbit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                                <polyline points="16 7 22 7 22 13"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label">Trading Rate</span>
+                    </div>
+                    
+                    <div class="orbit-item pos-bottom" onclick="openModal('modal-knowledge')">
+                        <div class="orbit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label" data-i18n="ecosystem.knowledge">База знаний</span>
+                    </div>
+                    
+                    <div class="orbit-item pos-left" onclick="openModal('modal-community')">
+                        <div class="orbit-item-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label" data-i18n="ecosystem.community">Комьюнити чат</span>
+                    </div>
+                    
+                    <!-- Hidden/Coming Soon Items -->
+                    <div class="orbit-item pos-top-right">
+                        <div class="orbit-item-icon locked">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label soon" data-i18n="status.soon">Скоро</span>
+                    </div>
+                    
+                    <div class="orbit-item pos-bottom-right">
+                        <div class="orbit-item-icon locked">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label soon" data-i18n="status.soon">Скоро</span>
+                    </div>
+                    
+                    <div class="orbit-item pos-bottom-left">
+                        <div class="orbit-item-icon locked">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <span class="orbit-item-label soon" data-i18n="status.soon">Скоро</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-section" id="services">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-line"></div>
+                    <span class="section-title" data-i18n="services.title">Сервисы и ресурсы</span>
+                    <div class="section-line"></div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card featured" onclick="openModal('modal-roadmap')">
+                        <div class="service-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                        <path d="m16 13-3.5 3.5-2-2L8 17"/>
+                                    </svg>
+                                </div>
+                                <span class="service-status soon">
+                                    <span class="service-status-dot"></span>
+                                    <span data-i18n="status.soon">Скоро</span>
+                                </span>
+                            </div>
+                            <h3 class="service-title">Web3 Roadmap</h3>
+                            <p class="service-description" data-i18n="services.roadmap.desc">Полный путь от новичка до Web3 разработчика за 9-12 месяцев. 700+ тем: смарт-контракты Solidity, DeFi, DEX, P2E игры, NFT маркетплейсы.</p>
+                            <div class="service-footer">
+                                <span class="service-tag" data-i18n="services.roadmap.tag1">700+ тем</span>
+                                <span class="service-tag" data-i18n="services.roadmap.tag2">9-12 мес</span>
+                                <div class="service-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" onclick="openModal('modal-trading')">
+                        <div class="service-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                                        <polyline points="16 7 22 7 22 13"/>
+                                    </svg>
+                                </div>
+                                <span class="service-status soon">
+                                    <span class="service-status-dot"></span>
+                                    <span data-i18n="status.soon">Скоро</span>
+                                </span>
+                            </div>
+                            <h3 class="service-title">Trading Rate</h3>
+                            <p class="service-description" data-i18n="services.trading.desc">Аналитика торговых пар, отслеживание курсов и рейтинги криптовалют в реальном времени</p>
+                            <div class="service-footer">
+                                <span class="service-tag">analytics</span>
+                                <span class="service-tag">rates</span>
+                                <div class="service-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" onclick="openModal('modal-knowledge')">
+                        <div class="service-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                                    </svg>
+                                </div>
+                                <span class="service-status soon">
+                                    <span class="service-status-dot"></span>
+                                    <span data-i18n="status.soon">Скоро</span>
+                                </span>
+                            </div>
+                            <h3 class="service-title" data-i18n="services.knowledge.title">База знаний</h3>
+                            <p class="service-description" data-i18n="services.knowledge.desc">Гайды, туториалы и документация по Web3</p>
+                            <div class="service-footer">
+                                <span class="service-tag">docs</span>
+                                <div class="service-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" onclick="openModal('modal-community')">
+                        <div class="service-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                    </svg>
+                                </div>
+                                <span class="service-status live">
+                                    <span class="service-status-dot"></span>
+                                    <span data-i18n="status.active">Активно</span>
+                                </span>
+                            </div>
+                            <h3 class="service-title" data-i18n="services.community.title">Комьюнити чат</h3>
+                            <p class="service-description" data-i18n="services.community.desc">Обсуждения, нетворкинг и взаимопомощь</p>
+                            <div class="service-footer">
+                                <span class="service-tag">community</span>
+                                <div class="service-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-card">
+                    <div class="cta-glow"></div>
+                    <div class="cta-content">
+                        <h2 data-i18n="cta.title">Присоединяйтесь к сообществу</h2>
+                        <p data-i18n="cta.subtitle">Получайте актуальные новости и участвуйте в обсуждениях</p>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="https://t.me/cornerdao" class="btn btn-primary" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                            </svg>
+                            <span data-i18n="cta.channel">Канал</span>
+                        </a>
+                        <a href="https://t.me/chaticscorner" class="btn btn-secondary" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span data-i18n="cta.chat">Чат</span>
+                        </a>
+                        <a href="https://x.com/0xBartG" class="btn btn-secondary" target="_blank">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                            Twitter / X
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <img src="avatar.png" alt="Уголок DAO" class="footer-logo">
+                    <span class="footer-text">© 2025 <span data-i18n="brand.full">Уголок DAO</span></span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://t.me/cornerdao" class="footer-link" target="_blank">Telegram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal: Roadmap -->
+    <div class="modal-overlay" id="modal-roadmap">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-roadmap')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="modal-status soon"><span class="modal-status-dot"></span><span data-i18n="status.soon">Скоро</span></span>
+                <h2 class="modal-title">Web3 Roadmap</h2>
+                <p class="modal-description" data-i18n="modal.roadmap.desc">Полный структурированный путь от новичка до Full-Stack Web3 разработчика. 700+ тем с интерактивным трекером прогресса, практическими проектами и ссылками на лучшие ресурсы. Цель — научить создавать DEX, P2E игры, NFT маркетплейсы и получить работу в Web3.</p>
+                <div class="modal-features">
+                    <div class="modal-features-title" data-i18n="modal.roadmap.phases">Фазы обучения</div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.roadmap.phase1"><strong>Foundation (1-2 мес):</strong> HTML, CSS, JavaScript, TypeScript, React, Next.js, основы блокчейна, кошельки, Block Explorers</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.roadmap.phase2"><strong>Intermediate (3-5 мес):</strong> Solidity, смарт-контракты, ERC-20/721/1155, Hardhat, Foundry, Ethers.js, DeFi концепции, AMM, Liquidity Pools</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.roadmap.phase3"><strong>Advanced (6-9 мес):</strong> DEX разработка, P2E игры, CEX системы, аудит безопасности, upgradeable контракты, The Graph, IPFS</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.roadmap.phase4"><strong>Проекты:</strong> Portfolio сайт, NFT Marketplace, ERC-20 со стейкингом, полноценный DEX или P2E игра</span>
+                    </div>
+                </div>
+                <div class="modal-tags">
+                    <span class="modal-tag">solidity</span>
+                    <span class="modal-tag">defi</span>
+                    <span class="modal-tag">nft</span>
+                    <span class="modal-tag">dex</span>
+                    <span class="modal-tag">p2e</span>
+                    <span class="modal-tag">react</span>
+                    <span class="modal-tag">next.js</span>
+                    <span class="modal-tag">hardhat</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" disabled data-i18n="modal.soon">Скоро запуск</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal('modal-roadmap')" data-i18n="modal.close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Trading Rate -->
+    <div class="modal-overlay" id="modal-trading">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-trading')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="modal-status soon"><span class="modal-status-dot"></span><span data-i18n="status.soon">Скоро</span></span>
+                <h2 class="modal-title">Trading Rate</h2>
+                <p class="modal-description" data-i18n="modal.trading.desc">Мощный инструмент для отслеживания курсов криптовалют и анализа торговых пар в реальном времени. Получайте актуальные данные с ведущих бирж.</p>
+                <div class="modal-features">
+                    <div class="modal-features-title" data-i18n="modal.trading.features">Возможности</div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.trading.feature1">Отслеживание курсов криптовалют в реальном времени</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.trading.feature2">Анализ торговых пар на разных биржах</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.trading.feature3">Уведомления об изменениях цен, мониторинг в Telegram</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.trading.feature4">Исторические графики и статистика</span>
+                    </div>
+                </div>
+                <div class="modal-tags">
+                    <span class="modal-tag">analytics</span>
+                    <span class="modal-tag">trading</span>
+                    <span class="modal-tag">rates</span>
+                    <span class="modal-tag">realtime</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" disabled data-i18n="modal.soon">Скоро запуск</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal('modal-trading')" data-i18n="modal.close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Knowledge -->
+    <div class="modal-overlay" id="modal-knowledge">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-knowledge')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="modal-status soon"><span class="modal-status-dot"></span><span data-i18n="status.soon">Скоро</span></span>
+                <h2 class="modal-title" data-i18n="services.knowledge.title">База знаний</h2>
+                <p class="modal-description" data-i18n="modal.knowledge.desc">Обширная коллекция гайдов, туториалов и документации по работе с Web3 инструментами.</p>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" disabled data-i18n="modal.soon">Скоро запуск</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal('modal-knowledge')" data-i18n="modal.close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Community -->
+    <div class="modal-overlay" id="modal-community">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-community')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="modal-status live"><span class="modal-status-dot"></span><span data-i18n="status.active">Активно</span></span>
+                <h2 class="modal-title" data-i18n="services.community.title">Комьюнити чат</h2>
+                <p class="modal-description" data-i18n="modal.community.desc">Живое сообщество единомышленников. Обсуждения, нетворкинг и взаимопомощь.</p>
+                <div class="modal-actions">
+                    <a href="https://t.me/chaticscorner" target="_blank" class="modal-btn modal-btn-primary" data-i18n="modal.join">Присоединиться</a>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal('modal-community')" data-i18n="modal.close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            ru: {
+                'brand.name': 'Уголок',
+                'brand.full': 'Уголок DAO',
+                'nav.services': 'Сервисы',
+                'hero.subtitle': 'Образовательная платформа и сообщество для изучения различных задач при взаимодействии с миром Web3',
+                'hero.education': 'Образование',
+                'hero.analytics': 'Аналитика',
+                'hero.community': 'Сообщество',
+                'ecosystem.title': 'Единая экосистема для Web3',
+                'ecosystem.subtitle': 'Ознакомьтесь с нашими продуктами и функциями, которые помогут вам в решении различных задач',
+                'ecosystem.knowledge': 'База знаний',
+                'ecosystem.community': 'Комьюнити чат',
+                'services.title': 'Сервисы и ресурсы',
+                'status.soon': 'Скоро',
+                'status.active': 'Активно',
+                'services.roadmap.desc': 'Полный путь от новичка до Web3 разработчика за 9-12 месяцев. 700+ тем: смарт-контракты Solidity, DeFi, DEX, P2E игры, NFT маркетплейсы.',
+                'services.roadmap.tag1': '700+ тем',
+                'services.roadmap.tag2': '9-12 мес',
+                'services.trading.desc': 'Аналитика торговых пар, отслеживание курсов и рейтинги криптовалют в реальном времени',
+                'services.knowledge.title': 'База знаний',
+                'services.knowledge.desc': 'Гайды, туториалы и документация по Web3',
+                'services.community.title': 'Комьюнити чат',
+                'services.community.desc': 'Обсуждения, нетворкинг и взаимопомощь',
+                'cta.title': 'Присоединяйтесь к сообществу',
+                'cta.subtitle': 'Получайте актуальные новости и участвуйте в обсуждениях',
+                'cta.channel': 'Канал',
+                'cta.chat': 'Чат',
+                'modal.close': 'Закрыть',
+                'modal.soon': 'Скоро запуск',
+                'modal.open': 'Открыть',
+                'modal.join': 'Присоединиться',
+                'modal.roadmap.desc': 'Полный структурированный путь от новичка до Full-Stack Web3 разработчика. 700+ тем с интерактивным трекером прогресса, практическими проектами и ссылками на лучшие ресурсы. Цель — научить создавать DEX, P2E игры, NFT маркетплейсы и получить работу в Web3.',
+                'modal.roadmap.phases': 'Фазы обучения',
+                'modal.roadmap.phase1': '<strong>Foundation (1-2 мес):</strong> HTML, CSS, JavaScript, TypeScript, React, Next.js, основы блокчейна, кошельки, Block Explorers',
+                'modal.roadmap.phase2': '<strong>Intermediate (3-5 мес):</strong> Solidity, смарт-контракты, ERC-20/721/1155, Hardhat, Foundry, Ethers.js, DeFi концепции, AMM, Liquidity Pools',
+                'modal.roadmap.phase3': '<strong>Advanced (6-9 мес):</strong> DEX разработка, P2E игры, CEX системы, аудит безопасности, upgradeable контракты, The Graph, IPFS',
+                'modal.roadmap.phase4': '<strong>Проекты:</strong> Portfolio сайт, NFT Marketplace, ERC-20 со стейкингом, полноценный DEX или P2E игра',
+                'modal.trading.desc': 'Мощный инструмент для отслеживания курсов криптовалют и анализа торговых пар в реальном времени. Получайте актуальные данные с ведущих бирж.',
+                'modal.trading.features': 'Возможности',
+                'modal.trading.feature1': 'Отслеживание курсов криптовалют в реальном времени',
+                'modal.trading.feature2': 'Анализ торговых пар на разных биржах',
+                'modal.trading.feature3': 'Уведомления об изменениях цен, мониторинг в Telegram',
+                'modal.trading.feature4': 'Исторические графики и статистика',
+                'modal.knowledge.desc': 'Обширная коллекция гайдов, туториалов и документации по работе с Web3 инструментами.',
+                'modal.community.desc': 'Живое сообщество единомышленников. Обсуждения, нетворкинг и взаимопомощь.'
+            },
+            en: {
+                'brand.name': 'Corner',
+                'brand.full': 'Corner DAO',
+                'nav.services': 'Services',
+                'hero.subtitle': 'Educational platform and community for learning various tasks when interacting with the Web3 world',
+                'hero.education': 'Education',
+                'hero.analytics': 'Analytics',
+                'hero.community': 'Community',
+                'ecosystem.title': 'Unified Ecosystem for Web3',
+                'ecosystem.subtitle': 'Explore our products and features that will help you solve various tasks',
+                'ecosystem.knowledge': 'Knowledge Base',
+                'ecosystem.community': 'Community Chat',
+                'services.title': 'Services & Resources',
+                'status.soon': 'Soon',
+                'status.active': 'Active',
+                'services.roadmap.desc': 'Complete path from beginner to Web3 developer in 9-12 months. 700+ topics: Solidity smart contracts, DeFi, DEX, P2E games, NFT marketplaces.',
+                'services.roadmap.tag1': '700+ topics',
+                'services.roadmap.tag2': '9-12 mo',
+                'services.trading.desc': 'Trading pair analytics, rate tracking and real-time cryptocurrency ratings',
+                'services.knowledge.title': 'Knowledge Base',
+                'services.knowledge.desc': 'Guides, tutorials and Web3 documentation',
+                'services.community.title': 'Community Chat',
+                'services.community.desc': 'Discussions, networking and mutual support',
+                'cta.title': 'Join the Community',
+                'cta.subtitle': 'Get the latest news and participate in discussions',
+                'cta.channel': 'Channel',
+                'cta.chat': 'Chat',
+                'modal.close': 'Close',
+                'modal.soon': 'Coming Soon',
+                'modal.open': 'Open',
+                'modal.join': 'Join',
+                'modal.roadmap.desc': 'Complete structured path from beginner to Full-Stack Web3 developer. 700+ topics with interactive progress tracker, hands-on projects and links to best resources. Goal — learn to build DEX, P2E games, NFT marketplaces and land a Web3 job.',
+                'modal.roadmap.phases': 'Learning Phases',
+                'modal.roadmap.phase1': '<strong>Foundation (1-2 mo):</strong> HTML, CSS, JavaScript, TypeScript, React, Next.js, blockchain basics, wallets, Block Explorers',
+                'modal.roadmap.phase2': '<strong>Intermediate (3-5 mo):</strong> Solidity, smart contracts, ERC-20/721/1155, Hardhat, Foundry, Ethers.js, DeFi concepts, AMM, Liquidity Pools',
+                'modal.roadmap.phase3': '<strong>Advanced (6-9 mo):</strong> DEX development, P2E games, CEX systems, security auditing, upgradeable contracts, The Graph, IPFS',
+                'modal.roadmap.phase4': '<strong>Projects:</strong> Portfolio website, NFT Marketplace, ERC-20 with staking, full DEX or P2E game',
+                'modal.trading.desc': 'Powerful tool for tracking cryptocurrency rates and analyzing trading pairs in real-time. Get up-to-date data from leading exchanges.',
+                'modal.trading.features': 'Features',
+                'modal.trading.feature1': 'Real-time cryptocurrency rate tracking',
+                'modal.trading.feature2': 'Trading pair analysis across exchanges',
+                'modal.trading.feature3': 'Price change notifications, monitoring in Telegram',
+                'modal.trading.feature4': 'Historical charts and statistics',
+                'modal.knowledge.desc': 'Extensive collection of guides, tutorials and documentation for working with Web3 tools.',
+                'modal.community.desc': 'A vibrant community of like-minded people. Discussions, networking and mutual support.'
+            }
+        };
+
+        let currentLang = 'ru';
+
+        function updateLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    if (translations[lang][key].includes('<strong>')) {
+                        el.innerHTML = translations[lang][key];
+                    } else {
+                        el.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            const langBtn = document.getElementById('langBtn');
+            if (lang === 'ru') {
+                langBtn.innerHTML = '<span class="lang-flag">🇬🇧</span><span class="lang-text">EN</span>';
+            } else {
+                langBtn.innerHTML = '<span class="lang-flag">🇷🇺</span><span class="lang-text">RU</span>';
+            }
+            
+            document.documentElement.lang = lang;
+            currentLang = lang;
+        }
+
+        function toggleLanguage() {
+            const newLang = currentLang === 'ru' ? 'en' : 'ru';
+            updateLanguage(newLang);
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLanguage(currentLang);
+        });
+    </script>
+</body>
+</html>
