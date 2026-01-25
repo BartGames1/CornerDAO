@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Уголок DAO — Web3 Hub</title>
+    <link rel="icon" type="image/png" href="avatar.png">
+    <link rel="apple-touch-icon" href="avatar.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -1357,6 +1359,136 @@
                 display: none;
             }
         }
+
+        /* Hero Banner */
+        .hero-banner {
+            margin: 24px auto;
+            max-width: 1052px;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, var(--accent-dim) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: pulse-border 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { 
+                border-color: rgba(99, 102, 241, 0.3);
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+            }
+            50% { 
+                border-color: rgba(99, 102, 241, 0.6);
+                box-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+            }
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .hero-banner-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .hero-banner-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .hero-banner-content {
+            flex: 1;
+        }
+
+        .hero-banner-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--success);
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .hero-banner-badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero-banner-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .hero-banner-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .hero-banner-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .hero-banner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+                margin: 16px;
+            }
+            
+            .hero-banner-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1390,6 +1522,25 @@
             </div>
         </div>
     </header>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <div class="hero-banner-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                <polyline points="14 2 14 8 20 8"/>
+            </svg>
+        </div>
+        <div class="hero-banner-content">
+            <div class="hero-banner-badge">
+                <span class="hero-banner-badge-dot"></span>
+                <span data-i18n="hero.banner.badge">Новый релиз</span>
+            </div>
+            <h3 class="hero-banner-title" data-i18n="hero.banner.title">Web3 Roadmap теперь доступен!</h3>
+            <p class="hero-banner-desc" data-i18n="hero.banner.desc">Полный путь от новичка до Web3 разработчика. 700+ тем с интерактивным трекером.</p>
+        </div>
+        <a href="https://web3.cornerdao.com/" class="hero-banner-btn" onclick="openModal('modal-roadmap'); return false;" data-i18n="hero.banner.btn">Начать обучение</a>
+    </div>
 
     <main>
         <section class="hero">
@@ -1465,7 +1616,7 @@
                                 <polyline points="16 7 22 7 22 13"/>
                             </svg>
                         </div>
-                        <span class="orbit-item-label">Trading Rate</span>
+                        <span class="orbit-item-label">Funding Rate</span>
                     </div>
                     
                     <div class="orbit-item pos-bottom" onclick="openModal('modal-knowledge')">
@@ -1487,17 +1638,19 @@
                         <span class="orbit-item-label" data-i18n="ecosystem.community">Комьюнити чат</span>
                     </div>
                     
-                    <!-- Hidden/Coming Soon Items -->
-                    <div class="orbit-item pos-top-right">
-                        <div class="orbit-item-icon locked">
+                    <!-- Retrodrop Platform -->
+                    <div class="orbit-item pos-top-right" onclick="openModal('modal-retrodrop')">
+                        <div class="orbit-item-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
                             </svg>
                         </div>
-                        <span class="orbit-item-label soon" data-i18n="status.soon">Скоро</span>
+                        <span class="orbit-item-label" data-i18n="ecosystem.retrodrop">Ретродроп</span>
                     </div>
                     
+                    <!-- Hidden/Coming Soon Items -->
                     <div class="orbit-item pos-bottom-right">
                         <div class="orbit-item-icon locked">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1539,9 +1692,9 @@
                                         <path d="m16 13-3.5 3.5-2-2L8 17"/>
                                     </svg>
                                 </div>
-                                <span class="service-status soon">
+                                <span class="service-status live">
                                     <span class="service-status-dot"></span>
-                                    <span data-i18n="status.soon">Скоро</span>
+                                    <span data-i18n="status.active">Активно</span>
                                 </span>
                             </div>
                             <h3 class="service-title">Web3 Roadmap</h3>
@@ -1570,8 +1723,8 @@
                                     <span data-i18n="status.soon">Скоро</span>
                                 </span>
                             </div>
-                            <h3 class="service-title">Trading Rate</h3>
-                            <p class="service-description" data-i18n="services.trading.desc">Аналитика торговых пар, отслеживание курсов и рейтинги криптовалют в реальном времени</p>
+                            <h3 class="service-title">Funding Rate</h3>
+                            <p class="service-description" data-i18n="services.trading.desc">Аналитическая платформа для арбитража Funding Rate на крипто биржах. Находите лучшие возможности автоматически.</p>
                             <div class="service-footer">
                                 <span class="service-tag">analytics</span>
                                 <span class="service-tag">rates</span>
@@ -1630,6 +1783,33 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="service-card" onclick="openModal('modal-retrodrop')">
+                        <div class="service-content">
+                            <div class="service-header">
+                                <div class="service-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                        <path d="M2 17l10 5 10-5"/>
+                                        <path d="M2 12l10 5 10-5"/>
+                                    </svg>
+                                </div>
+                                <span class="service-status soon">
+                                    <span class="service-status-dot"></span>
+                                    <span data-i18n="status.soon">Скоро</span>
+                                </span>
+                            </div>
+                            <h3 class="service-title" data-i18n="services.retrodrop.title">Ретродроп платформа</h3>
+                            <p class="service-description" data-i18n="services.retrodrop.desc">Отслеживайте активности для потенциальных аирдропов. Чеклисты, гайды и автоматический трекинг прогресса.</p>
+                            <div class="service-footer">
+                                <span class="service-tag">airdrop</span>
+                                <span class="service-tag">tracker</span>
+                                <div class="service-arrow">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1670,7 +1850,7 @@
             <div class="footer-content">
                 <div class="footer-left">
                     <img src="avatar.png" alt="Уголок DAO" class="footer-logo">
-                    <span class="footer-text">© 2025 <span data-i18n="brand.full">Уголок DAO</span></span>
+                    <span class="footer-text">© 2026 <span data-i18n="brand.full">Уголок DAO</span></span>
                 </div>
                 <div class="footer-links">
                     <a href="https://t.me/cornerdao" class="footer-link" target="_blank">Telegram</a>
@@ -1691,7 +1871,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <span class="modal-status soon"><span class="modal-status-dot"></span><span data-i18n="status.soon">Скоро</span></span>
+                <span class="modal-status live"><span class="modal-status-dot"></span><span data-i18n="status.active">Активно</span></span>
                 <h2 class="modal-title">Web3 Roadmap</h2>
                 <p class="modal-description" data-i18n="modal.roadmap.desc">Полный структурированный путь от новичка до Full-Stack Web3 разработчика. 700+ тем с интерактивным трекером прогресса, практическими проектами и ссылками на лучшие ресурсы. Цель — научить создавать DEX, P2E игры, NFT маркетплейсы и получить работу в Web3.</p>
                 <div class="modal-features">
@@ -1724,14 +1904,14 @@
                     <span class="modal-tag">hardhat</span>
                 </div>
                 <div class="modal-actions">
-                    <button class="modal-btn modal-btn-primary" disabled data-i18n="modal.soon">Скоро запуск</button>
+                    <a href="https://web3.cornerdao.com/" target="_blank" class="modal-btn modal-btn-primary" data-i18n="modal.open">Открыть</a>
                     <button class="modal-btn modal-btn-secondary" onclick="closeModal('modal-roadmap')" data-i18n="modal.close">Закрыть</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Trading Rate -->
+    <!-- Modal: Funding Rate -->
     <div class="modal-overlay" id="modal-trading">
         <div class="modal">
             <div class="modal-header">
@@ -1744,8 +1924,8 @@
             </div>
             <div class="modal-body">
                 <span class="modal-status soon"><span class="modal-status-dot"></span><span data-i18n="status.soon">Скоро</span></span>
-                <h2 class="modal-title">Trading Rate</h2>
-                <p class="modal-description" data-i18n="modal.trading.desc">Мощный инструмент для отслеживания курсов криптовалют и анализа торговых пар в реальном времени. Получайте актуальные данные с ведущих бирж.</p>
+                <h2 class="modal-title">Funding Rate</h2>
+                <p class="modal-description" data-i18n="modal.trading.desc">Совершенствуйте процесс арбитража, находите лучшие спреды между биржами и масштабируйте дельта-нейтральные стратегии.</p>
                 <div class="modal-features">
                     <div class="modal-features-title" data-i18n="modal.trading.features">Возможности</div>
                     <div class="modal-feature">
@@ -1825,6 +2005,54 @@
         </div>
     </div>
 
+    <!-- Modal: Retrodrop -->
+    <div class="modal-overlay" id="modal-retrodrop">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-retrodrop')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="modal-status soon"><span class="modal-status-dot"></span><span data-i18n="status.soon">Скоро</span></span>
+                <h2 class="modal-title" data-i18n="services.retrodrop.title">Ретродроп платформа</h2>
+                <p class="modal-description" data-i18n="modal.retrodrop.desc">Платформа для отслеживания и выполнения активностей в перспективных проектах. Получайте структурированные чеклисты, пошаговые гайды и автоматический трекинг вашего прогресса для максимизации шансов на аирдроп.</p>
+                <div class="modal-features">
+                    <div class="modal-features-title" data-i18n="modal.retrodrop.features">Возможности</div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.retrodrop.feature1">Каталог перспективных проектов с оценкой потенциала</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.retrodrop.feature2">Пошаговые чеклисты активностей для каждого проекта</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.retrodrop.feature3">Автоматический трекинг выполненных задач</span>
+                    </div>
+                    <div class="modal-feature">
+                        <svg class="modal-feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="modal-feature-text" data-i18n="modal.retrodrop.feature4">Уведомления о новых возможностях и дедлайнах</span>
+                    </div>
+                </div>
+                <div class="modal-tags">
+                    <span class="modal-tag">airdrop</span>
+                    <span class="modal-tag">tracker</span>
+                    <span class="modal-tag">checklist</span>
+                    <span class="modal-tag">defi</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" disabled data-i18n="modal.soon">Скоро запуск</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeModal('modal-retrodrop')" data-i18n="modal.close">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const translations = {
             ru: {
@@ -1839,17 +2067,26 @@
                 'ecosystem.subtitle': 'Ознакомьтесь с нашими продуктами и функциями, которые помогут вам в решении различных задач',
                 'ecosystem.knowledge': 'База знаний',
                 'ecosystem.community': 'Комьюнити чат',
+                'ecosystem.retrodrop': 'Ретродроп',
                 'services.title': 'Сервисы и ресурсы',
                 'status.soon': 'Скоро',
                 'status.active': 'Активно',
                 'services.roadmap.desc': 'Полный путь от новичка до Web3 разработчика за 9-12 месяцев. 700+ тем: смарт-контракты Solidity, DeFi, DEX, P2E игры, NFT маркетплейсы.',
                 'services.roadmap.tag1': '700+ тем',
                 'services.roadmap.tag2': '9-12 мес',
-                'services.trading.desc': 'Аналитика торговых пар, отслеживание курсов и рейтинги криптовалют в реальном времени',
+                'services.trading.desc': 'Аналитическая платформа для арбитража Funding Rate на крипто биржах. Находите лучшие возможности автоматически.',
                 'services.knowledge.title': 'База знаний',
                 'services.knowledge.desc': 'Гайды, туториалы и документация по Web3',
                 'services.community.title': 'Комьюнити чат',
                 'services.community.desc': 'Обсуждения, нетворкинг и взаимопомощь',
+                'services.retrodrop.title': 'Ретродроп платформа',
+                'services.retrodrop.desc': 'Отслеживайте активности для потенциальных аирдропов. Чеклисты, гайды и автоматический трекинг прогресса.',
+                'modal.retrodrop.desc': 'Платформа для отслеживания и выполнения активностей в перспективных проектах. Получайте структурированные чеклисты, пошаговые гайды и автоматический трекинг вашего прогресса для максимизации шансов на аирдроп.',
+                'modal.retrodrop.features': 'Возможности',
+                'modal.retrodrop.feature1': 'Каталог перспективных проектов с оценкой потенциала',
+                'modal.retrodrop.feature2': 'Пошаговые чеклисты активностей для каждого проекта',
+                'modal.retrodrop.feature3': 'Автоматический трекинг выполненных задач',
+                'modal.retrodrop.feature4': 'Уведомления о новых возможностях и дедлайнах',
                 'cta.title': 'Присоединяйтесь к сообществу',
                 'cta.subtitle': 'Получайте актуальные новости и участвуйте в обсуждениях',
                 'cta.channel': 'Канал',
@@ -1864,14 +2101,18 @@
                 'modal.roadmap.phase2': '<strong>Intermediate (3-5 мес):</strong> Solidity, смарт-контракты, ERC-20/721/1155, Hardhat, Foundry, Ethers.js, DeFi концепции, AMM, Liquidity Pools',
                 'modal.roadmap.phase3': '<strong>Advanced (6-9 мес):</strong> DEX разработка, P2E игры, CEX системы, аудит безопасности, upgradeable контракты, The Graph, IPFS',
                 'modal.roadmap.phase4': '<strong>Проекты:</strong> Portfolio сайт, NFT Marketplace, ERC-20 со стейкингом, полноценный DEX или P2E игра',
-                'modal.trading.desc': 'Мощный инструмент для отслеживания курсов криптовалют и анализа торговых пар в реальном времени. Получайте актуальные данные с ведущих бирж.',
+                'modal.trading.desc': 'Совершенствуйте процесс арбитража, находите лучшие спреды между биржами и масштабируйте дельта-нейтральные стратегии.',
                 'modal.trading.features': 'Возможности',
                 'modal.trading.feature1': 'Отслеживание курсов криптовалют в реальном времени',
                 'modal.trading.feature2': 'Анализ торговых пар на разных биржах',
                 'modal.trading.feature3': 'Уведомления об изменениях цен, мониторинг в Telegram',
                 'modal.trading.feature4': 'Исторические графики и статистика',
                 'modal.knowledge.desc': 'Обширная коллекция гайдов, туториалов и документации по работе с Web3 инструментами.',
-                'modal.community.desc': 'Живое сообщество единомышленников. Обсуждения, нетворкинг и взаимопомощь.'
+                'modal.community.desc': 'Живое сообщество единомышленников. Обсуждения, нетворкинг и взаимопомощь.',
+                'hero.banner.badge': 'Новый релиз',
+                'hero.banner.title': 'Web3 Roadmap теперь доступен!',
+                'hero.banner.desc': 'Полный путь от новичка до Web3 разработчика. 700+ тем с интерактивным трекером.',
+                'hero.banner.btn': 'Начать обучение'
             },
             en: {
                 'brand.name': 'Corner',
@@ -1885,17 +2126,26 @@
                 'ecosystem.subtitle': 'Explore our products and features that will help you solve various tasks',
                 'ecosystem.knowledge': 'Knowledge Base',
                 'ecosystem.community': 'Community Chat',
+                'ecosystem.retrodrop': 'Retrodrop',
                 'services.title': 'Services & Resources',
                 'status.soon': 'Soon',
                 'status.active': 'Active',
                 'services.roadmap.desc': 'Complete path from beginner to Web3 developer in 9-12 months. 700+ topics: Solidity smart contracts, DeFi, DEX, P2E games, NFT marketplaces.',
                 'services.roadmap.tag1': '700+ topics',
                 'services.roadmap.tag2': '9-12 mo',
-                'services.trading.desc': 'Trading pair analytics, rate tracking and real-time cryptocurrency ratings',
+                'services.trading.desc': 'Analytics platform for Funding Rate arbitrage on crypto exchanges. Find the best opportunities automatically.',
                 'services.knowledge.title': 'Knowledge Base',
                 'services.knowledge.desc': 'Guides, tutorials and Web3 documentation',
                 'services.community.title': 'Community Chat',
                 'services.community.desc': 'Discussions, networking and mutual support',
+                'services.retrodrop.title': 'Retrodrop Platform',
+                'services.retrodrop.desc': 'Track activities for potential airdrops. Checklists, guides and automatic progress tracking.',
+                'modal.retrodrop.desc': 'Platform for tracking and completing activities in promising projects. Get structured checklists, step-by-step guides and automatic progress tracking to maximize your airdrop chances.',
+                'modal.retrodrop.features': 'Features',
+                'modal.retrodrop.feature1': 'Catalog of promising projects with potential assessment',
+                'modal.retrodrop.feature2': 'Step-by-step activity checklists for each project',
+                'modal.retrodrop.feature3': 'Automatic tracking of completed tasks',
+                'modal.retrodrop.feature4': 'Notifications about new opportunities and deadlines',
                 'cta.title': 'Join the Community',
                 'cta.subtitle': 'Get the latest news and participate in discussions',
                 'cta.channel': 'Channel',
@@ -1910,14 +2160,18 @@
                 'modal.roadmap.phase2': '<strong>Intermediate (3-5 mo):</strong> Solidity, smart contracts, ERC-20/721/1155, Hardhat, Foundry, Ethers.js, DeFi concepts, AMM, Liquidity Pools',
                 'modal.roadmap.phase3': '<strong>Advanced (6-9 mo):</strong> DEX development, P2E games, CEX systems, security auditing, upgradeable contracts, The Graph, IPFS',
                 'modal.roadmap.phase4': '<strong>Projects:</strong> Portfolio website, NFT Marketplace, ERC-20 with staking, full DEX or P2E game',
-                'modal.trading.desc': 'Powerful tool for tracking cryptocurrency rates and analyzing trading pairs in real-time. Get up-to-date data from leading exchanges.',
+                'modal.trading.desc': 'Perfect your arbitrage process, find the best spreads across exchanges and scale delta-neutral strategies.',
                 'modal.trading.features': 'Features',
                 'modal.trading.feature1': 'Real-time cryptocurrency rate tracking',
                 'modal.trading.feature2': 'Trading pair analysis across exchanges',
                 'modal.trading.feature3': 'Price change notifications, monitoring in Telegram',
                 'modal.trading.feature4': 'Historical charts and statistics',
                 'modal.knowledge.desc': 'Extensive collection of guides, tutorials and documentation for working with Web3 tools.',
-                'modal.community.desc': 'A vibrant community of like-minded people. Discussions, networking and mutual support.'
+                'modal.community.desc': 'A vibrant community of like-minded people. Discussions, networking and mutual support.',
+                'hero.banner.badge': 'New Release',
+                'hero.banner.title': 'Web3 Roadmap is now live!',
+                'hero.banner.desc': 'Complete path from beginner to Web3 developer. 700+ topics with interactive tracker.',
+                'hero.banner.btn': 'Start Learning'
             }
         };
 
